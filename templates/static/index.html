@@ -6,41 +6,20 @@
     <link rel="stylesheet" href="./style.css"> 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script>
+  function generateTable() {
     
-<script type="text/javascript">
-    function addRows(){ 
-        var table = document.getElementById('emptbl');
-        var rowCount = table.rows.length;
-        var cellCount = table.rows[0].cells.length; 
-        var row = table.insertRow(rowCount);
-        for(var i =0; i <= cellCount; i++){
-            var cell = 'cell'+i;
-            cell = row.insertCell(i);
-            var copycel = document.getElementById('col'+i).innerHTML;
-            cell.innerHTML=copycel;
-            if(i == 3){ 
-                var radioinput = document.getElementById('col3').getElementsByTagName('input'); 
-                for(var j = 0; j <= radioinput.length; j++) { 
-                    if(radioinput[j].type == 'radio') { 
-                        var rownum = rowCount;
-                        radioinput[j].name = 'gender['+rownum+']';
-                    }
-                }
-            }
-        }
-    }
-    function deleteRows(){
-        var table = document.getElementById('emptbl');
-        var rowCount = table.rows.length;
-        if(rowCount > '2'){
-            var row = table.deleteRow(rowCount-1);
-            rowCount--;
-        }
-        else{
-            alert('There should be atleast one row');
-        }
-    }
-    </script>
+    var rollNo = document.getElementById('Rno').value;
+    // var name = document.getElementById('nameInput').value;
+
+    var tableRow = '<tr><td>' + rollNo + '</td><td>' + "abc" + '</td></tr>';
+
+    var table = document.getElementById('resultTable');
+
+    table.innerHTML += tableRow;
+    document.getElementById('Rno').value = '';
+} 
+</script>
 
 <title>Document</title>
 </head>
@@ -66,47 +45,18 @@
           </div>
         </div>
       </nav>
-      <form name="my-form" method="post" action="index.html">
+      <form name="my-form" method="post" onsubmit="generateTable(); return false;">
       <div class="input-group mb-3 space">
-        <input type="text" class="form-control" placeholder="Student's Roll No" aria-label="Student's Roll No" aria-describedby="basic-addon2">
+        <input type="text" class="form-control" id="Rno" placeholder="Student's Roll No" aria-label="Student's Roll No" aria-describedby="basic-addon2">
         <button type="submit" class="btn btn-dark">Go</button>
       </div>
-      <input type="button" value="Generate a table" onclick="generateTable()" />
+      
     </form>
+    <table id="resultTable" class="table"></table>
+    
 
-    <form action="#" method="post">    
-        <table id="emptbl">
-            <tr>
-                <th>Employee Name</th>
-                <th>Phone</th>
-                <th>Department</th> 
-                <th>Gender</th> 
-            </tr> 
-            <tr> 
-                <td id="col0"><input type="text" name="empname[]" value="" /></td> 
-                <td id="col1"><input type="text" name="phone[]" value="" /></td> 
-                <td id="col2"> 
-                <select name="department[]" id="dept"> 
-                <option value="0">Select Department</option> 
-                <option value="1">Sales</option>
-                <option value="2">IT</option>
-                <option value="3">Warehouse</option>
-                </select> 
-                    </td> 
-                    <td id="col3"> 
-                <input type="radio" name="gender[0]" value="male" />Male 
-                <input type="radio" name="gender[1]" value="female" />Female 
-                    </td> 
-            </tr>  
-        </table> 
-        <table> 
-            <tr> 
-                <td><input type="button" value="Add Row" onclick="addRows()" /></td> 
-                <td><input type="button" value="Delete Row" onclick="deleteRows()" /></td> 
-                <td><input type="submit" value="Submit" /></td> 
-            </tr>  
-        </table> 
-     </form> 
+
+    
 
 </body>
 </html>
