@@ -1,9 +1,17 @@
-from flask import Flask	
-app = Flask(__name__) 
+from flask import Flask, render_template, request
 
-@app.route('/')	
+app = Flask(__name__)
+
+@app.route('/')
 def hello():
-	return 'HELLO'
+    return render_template('index.html')
 
-if __name__=='__main__':
+@app.route('/process_data', methods=['POST'])
+def process_data():
+    student_roll_no = request.form.get('student_roll_no')
+    student_name = 'abcdes'
+    
+    return render_template('index.html', student_roll_no=student_roll_no,student_name = student_name)
+
+if __name__ == '__main__':
     app.run()
