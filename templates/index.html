@@ -61,7 +61,7 @@ video{
       <div class="space">
       <video id="video" autoplay></video>
       <canvas id="canvas" style="display: none;"></canvas>
-      <button id="scanButton">Scan Barcode</button>
+      
       <div id="barcodeData"></div>    
     </div>
 
@@ -69,7 +69,7 @@ video{
       <form name="my-form" method="post" action="/process_data">
         <div class="input-group mb-3 space">
           <input type="text" class="form-control" id="Rno" name="student_roll_no" placeholder="Enter Student's Roll No" aria-label="Student's Roll No" aria-describedby="basic-addon2">
-          <button type="submit" class="btn btn-dark">Go</button>
+          <button type="submit" class="btn btn-dark" id="scanButton">Go</button>
         </div>
       </form>
     <table id="resultTable" class="table">
@@ -101,8 +101,6 @@ video{
 
         // Function to display the barcode data
         function displayBarcodeData(data) {
-            const barcodeContainer = document.getElementById('barcodeData');
-            barcodeContainer.textContent = 'Barcode: ' + data;
             document.getElementById('Rno').value = data;
         }
 
