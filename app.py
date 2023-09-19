@@ -14,6 +14,9 @@ def hello():
 def process_data():
     s_no = request.form.get("student_roll_no")
     time_slot = request.form.get("time_slot")
+    attendance_status = "Present"
+    current_date = datetime.date.today()
+
     conn = mysql.connector.connect(
         host="localhost", user="root", password="root", database="students"
     )
@@ -25,14 +28,12 @@ def process_data():
 
     if result:
         student_name = result[0]
-        attendance_status = "Present"
-        current_date = datetime.date.today()
-
         cursor.execute(
             "INSERT INTO attendance (srno, timeslot, attendance_status, attendance_date) VALUES (%s, %s, %s, %s)",
             (s_no, time_slot, attendance_status, current_date),
         )
         conn.commit()
+
     else:
         student_name = "Student not found"
 
@@ -44,6 +45,35 @@ def process_data():
         student_name=student_name,
         time_slot=time_slot,
     )
+
+
+@app.route("/close_attendance", methods=["POST"])
+def close_attendance():
+    current_date = datetime.date.today()
+
+    time_slot = 1
+
+    conn = mysql.connector.connect(
+        host="localhost", user="root", password="root", database="students"
+    )
+
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT srno FROM student WHERE srno NOT IN (SELECT srno FROM attendance)"
+    )
+    absent_students = cursor.fetchall()
+    print(time_slot)
+    for student in absent_students:
+        srno = student[0]
+        cursor.execute(
+            "INSERT INTO attendance (srno, timeslot, attendance_status, attendance_date) VALUES (%s, %s, %s, %s)",
+            (srno, time_slot, "Absent", current_date),
+        )
+    conn.commit()
+    conn.close()
+
+    return "Attendance closed successfully!"
 
 
 if __name__ == "__main__":
