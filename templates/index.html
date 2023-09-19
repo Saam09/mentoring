@@ -1,96 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./static/style.css"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script>
+  function generateTable() {
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-      crossorigin="anonymous"
-    ></script>
-    <script>
-      function generateTable() {
-        var table = document.getElementById("resultTable");
+    var table = document.getElementById('resultTable');
 
-        table.innerHTML += tableRow;
-        document.getElementById("Rno").value = "";
-      }
-    </script>
-    <style>
-      .navbar-cust {
-        margin-top: -10px;
-      }
-      .space {
-        padding-top: 200px;
-        padding-left: 200px;
-        padding-right: 200px;
-        padding-bottom: 150px;
-      }
-    </style>
-    <title>Document</title>
-  </head>
-  <body>
+    table.innerHTML += tableRow;
+    document.getElementById('Rno').value = '';
+} 
+</script>
+<style>
+  .navbar-cust{
+    margin-top: -10px;
+}
+.space{
+    
+    padding-top: 0px;
+    padding-left: 200px;
+    padding-right: 200px;
+    padding-bottom: 20px; 
+}
+
+video{
+  height: 300px;
+  width: 300px;
+  margin-left: 350px;
+}
+</style>
+<title>Document</title>
+</head>
+<body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-cust">
-      <div class="container-fluid bg-primary">
-        <a class="navbar-brand" href="#">LAAS</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#"
-                >Attendance</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Stats</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Search</a>
-            </li>
-          </ul>
+        <div class="container-fluid bg-primary" >
+          <a class="navbar-brand" href="#">LAAS</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Attendance</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Stats</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Search</a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
-    <form name="my-form" method="post" action="/process_data">
-      <div class="input-group mb-3 space">
-        <input
-          type="text"
-          class="form-control"
-          id="Rno"
-          name="student_roll_no"
-          placeholder="Enter Student's Roll No"
-          aria-label="Student's Roll No"
-          aria-describedby="basic-addon2"
-        />
-        <button type="submit" class="btn btn-dark">Go</button>
-      </div>
-    </form>
+      </nav>
+
+      <div class="space">
+      <video id="video" autoplay></video>
+      <canvas id="canvas" style="display: none;"></canvas>
+      <button id="scanButton">Scan Barcode</button>
+      <div id="barcodeData"></div>    
+    </div>
+
+
+      <form name="my-form" method="post" action="/process_data">
+        <div class="input-group mb-3 space">
+          <input type="text" class="form-control" id="Rno" name="student_roll_no" placeholder="Enter Student's Roll No" aria-label="Student's Roll No" aria-describedby="basic-addon2">
+          <button type="submit" class="btn btn-dark">Go</button>
+        </div>
+      </form>
     <table id="resultTable" class="table">
-      <tr>
-        <th>Student Roll No</th>
-        <th>Student Name</th>
-      </tr>
-      <tr>
-        <td>{{ student_roll_no }}</td>
-        <td>{{ student_name }}</td>
-      </tr>
-    </table>
-  </body>
+  <tr>
+    <th>Student Roll No</th>
+    <th>Student Name</th>
+  </tr>
+  <tr>
+    <td>{{ student_roll_no }}</td>
+    <td>{{ student_name }}</td>
+  </tr>
+</table>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+    <script>
+        // Get access to the webcam and set up video stream
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+                const video = document.getElementById('video');
+                video.srcObject = stream;
+            })
+            .catch(function (error) {
+                console.error('Error accessing the webcam: ' + error);
+            });
+
+        // Create a canvas element for capturing video frames
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+
+        // Function to display the barcode data
+        function displayBarcodeData(data) {
+            const barcodeContainer = document.getElementById('barcodeData');
+            barcodeContainer.textContent = 'Barcode: ' + data;
+            document.getElementById('Rno').value = data;
+        }
+
+        // Initialize the barcode scanner (using QuaggaJS)
+        Quagga.init({
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: video
+            },
+            decoder: {
+                readers: ["ean_reader", "code_128_reader"] // Specify the barcode types you want to detect
+            }
+        }, function (err) {
+            if (err) {
+                console.error('Error initializing Quagga: ' + err);
+                return;
+            }
+            Quagga.start();
+        });
+
+        // Listen for barcode detection events
+        Quagga.onDetected(function (result) {
+            const barcodeData = result.codeResult.code;
+            displayBarcodeData(barcodeData);
+        });
+
+        // Add a click event listener to the scan button
+        const scanButton = document.getElementById('scanButton');
+        scanButton.addEventListener('click', function () {
+            // Clear previous barcode data
+            const barcodeContainer = document.getElementById('barcodeData');
+            barcodeContainer.textContent = '';
+
+            // Start the barcode scanner
+            Quagga.start();
+        });
+    </script>
+
+</body>
 </html>
