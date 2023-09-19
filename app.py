@@ -51,7 +51,10 @@ def process_data():
 def close_attendance():
     current_date = datetime.date.today()
 
-    time_slot = 1
+    request_data = request.get_json()  # Get the JSON data from the request
+    time_slot = request_data.get("time_slot")
+    print(time_slot)
+    print(type(time_slot))
 
     conn = mysql.connector.connect(
         host="localhost", user="root", password="root", database="students"
