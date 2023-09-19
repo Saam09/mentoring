@@ -52,7 +52,7 @@ def close_attendance():
     current_date = datetime.date.today()
 
     request_data = request.get_json()  # Get the JSON data from the request
-    time_slot = request_data.get("time_slot")
+    time_slot = int(request_data.get("time_slot"))
     print(time_slot)
     print(type(time_slot))
 
@@ -63,7 +63,8 @@ def close_attendance():
     cursor = conn.cursor()
 
     cursor.execute(
-        "SELECT srno FROM student WHERE srno NOT IN (SELECT srno FROM attendance)"
+        "SELECT srno FROM student WHERE srno NOT IN (SELECT srno FROM attendance WHERE timeslot= %s)",
+        (time_slot,),
     )
     absent_students = cursor.fetchall()
     print(time_slot)
