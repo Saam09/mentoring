@@ -96,7 +96,7 @@
           aria-describedby="basic-addon2"
         />
 
-        <select id="time_slot" name="time_slot">
+        <select id="time_slot" name="time_slot" onchange="updateTimeSlot()">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -186,10 +186,26 @@
         Quagga.start();
       });
 
+      // Function to update the selectedTimeSlot variable
+      var selectedTimeSlot = "";
+      function updateTimeSlot() {
+        var dropdown = document.getElementById("time_slot");
+        selectedTimeSlot = dropdown.options[dropdown.selectedIndex].value;
+      }
+
       //Close Attendance function
       function closeAttendance() {
+        // Create an object to hold the data
+        var data = {
+          time_slot: selectedTimeSlot, // Use the selected time slot
+        };
+
         fetch("/close_attendance", {
           method: "POST",
+          body: JSON.stringify(data), // Send the data as JSON
+          headers: {
+            "Content-Type": "application/json",
+          },
         })
           .then((response) => response.text())
           .then((message) => {
